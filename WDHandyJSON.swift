@@ -12,7 +12,7 @@ import KakaJSON
 public protocol WDJSONPareCodable: Convertible { }
 class WDJsonUtil: NSObject {
 
-    /** json -> model */
+    /** json -> model  */
     static func jsonToModel<T:WDJSONPareCodable>(_ jsonString: String?, _ modelType: T.Type) -> T? {
         guard let jsonString = jsonString, jsonString.count > 0 else { return nil }
         return model(from: jsonString, modelType)
