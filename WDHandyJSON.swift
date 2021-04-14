@@ -10,9 +10,9 @@ import Foundation
 import KakaJSON
 
 public protocol WDJSONPareCodable: Convertible { }
-class WDJsonUtil: NSObject {
+class WDHandyJSON: NSObject {
 
-    /** json -> model  */
+    /** json -> model */
     static func jsonToModel<T:WDJSONPareCodable>(_ jsonString: String?, _ modelType: T.Type) -> T? {
         guard let jsonString = jsonString, jsonString.count > 0 else { return nil }
         return model(from: jsonString, modelType)
@@ -25,8 +25,16 @@ class WDJsonUtil: NSObject {
     }
 
     /** 字典 -> model */
-    static func dictionaryToModel<T:WDJSONPareCodable>(_ dictionary: [String: Any]?, _ modelType: T.Type) -> T? {
-        guard let dictionary = dictionary, dictionary.count > 0 else { return nil }
+    static func dictionaryToModel<T:WDJSONPareCodable>(
+        _ dictionary: [String: Any]?,
+        targetKey: String? = nil,
+        modelType: T.Type) -> T? {
+         
+        guard var dictionary = dictionary, dictionary.count > 0 else { return nil }
+        if let targetKey = targetKey, let targetDictionary = dictionary[targetKey] as? [String: Any] {
+            dictionary = targetDictionary
+        }
+        
         return model(from: dictionary, modelType)
     }
 
